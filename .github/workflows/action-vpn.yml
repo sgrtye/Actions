@@ -17,14 +17,13 @@ jobs:
         uses: astral-sh/setup-uv@v6
 
       - name: Set up Python environment
-        run: |
-          cd vpn
-          uv sync --locked
+        run: uv sync --locked
+        working-directory: vpn
 
       - name: Set up Playwright
         run: playwright install --with-deps chromium
+        working-directory: vpn
 
       - name: Run script
-        run: |
-          cd vpn
-          uv run main.py
+        run: uv run main.py
+        working-directory: vpn
