@@ -36,8 +36,8 @@ class Image:
 def load_images_from_file() -> list[Image]:
     images: list[Image] = []
 
-    with open("mirroring/images.txt", "r") as file:
-        for i, line in enumerate(file):
+    with open("images.txt", "r") as file:
+        for line in file:
             if line:
                 parts: list[str] = line.split()
                 assert len(parts) == 5
