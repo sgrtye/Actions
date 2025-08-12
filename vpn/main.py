@@ -74,6 +74,7 @@ def main() -> None:
         try:
             VPN_login(page)
             if verify_status(page):
+                print("Already checked in today. Exiting.")
                 exit(0)
 
             page.wait_for_selector("#checkin-div > a")
@@ -82,7 +83,10 @@ def main() -> None:
 
             page.wait_for_timeout(TIMEOUT)
 
-            verify_status(page)
+            if verify_status(page):
+                print("Daily reward claimed successfully.")
+            else:
+                print("Failed to claim daily reward.")
 
         except Exception as e:
             failed_attempt(e)
