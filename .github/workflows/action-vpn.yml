@@ -3,7 +3,7 @@ name: VPN daily bonus
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 12 * * *'
+    - cron: '24 10 * * *'
 
 jobs:
   VPN:

@@ -6,6 +6,9 @@
 		{
 			"path": "../vpn"
 		},
+		{
+			"path": "../mirroring"
+		},
 	],
 	"settings": {
 		"python.analysis.typeCheckingMode": "basic"
