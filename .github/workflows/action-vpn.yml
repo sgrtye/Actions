@@ -1,0 +1,30 @@
+name: VPN daily bonus
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 17 * * *'
+
+jobs:
+  VPN:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python environment
+        run: |
+          cd vpn
+          uv sync --locked
+
+      - name: Set up Playwright
+        run: playwright install --with-deps chromium
+
+      - name: Run script
+        run: |
+          cd vpn
+          uv run main.py
