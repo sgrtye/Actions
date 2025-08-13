@@ -38,19 +38,23 @@ def load_images_from_file() -> list[Image]:
 
     with open("images.txt", "r") as file:
         for line in file:
-            if line:
-                parts: list[str] = line.split()
-                assert len(parts) == 5
+            if not line:
+                continue
 
-                images.append(
-                    Image(
-                        name=parts[0],
-                        original_identifier=parts[1],
-                        original_tag=parts[2],
-                        target_identifier=parts[3],
-                        target_tag=parts[4],
-                    )
+            parts: list[str] = line.split()
+            if len(parts) != 5:
+                print(f"Skipping invalid line in images.txt: {line}")
+                continue
+
+            images.append(
+                Image(
+                    name=parts[0],
+                    original_identifier=parts[1],
+                    original_tag=parts[2],
+                    target_identifier=parts[3],
+                    target_tag=parts[4],
                 )
+            )
 
     print(f"images: {[image.name for image in images]} to be processed")
     return images
@@ -254,7 +258,7 @@ def image_mirror(image: Image, status: dict[str, Status]) -> bool:
         return create_manifest(image, status)
 
     except Exception as e:
-        print(f"Error mirroring {image.name}: {e}")
+        print(f"Error occurred while mirroring {image.name}: {repr(e)}")
         return False
 
 
