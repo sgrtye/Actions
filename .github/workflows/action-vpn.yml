@@ -21,7 +21,7 @@ jobs:
         working-directory: vpn
 
       - name: Set up Playwright
-        run: uv run -m playwright install chromium
+        run: uv run -m playwright install --with-deps
         working-directory: vpn
 
       - name: Run script
