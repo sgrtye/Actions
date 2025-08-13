@@ -200,7 +200,7 @@ def create_manifest(image: Image, statuses: dict[str, Status]) -> bool:
 
     if all(status == Status.NOT_SUPPORTED for status in statuses.values()):
         print(f"Image {image.name} is not supported on any platform.")
-        return False
+        return True
 
     supported_platforms: list[str] = [
         platform
