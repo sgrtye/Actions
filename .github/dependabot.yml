@@ -5,3 +5,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: "uv"
+    directories:
+      - "mirroring"
+      - "vpn"
+    schedule:
+      interval: "weekly"
