@@ -25,7 +25,7 @@ jobs:
         working-directory: vpn
 
       - name: Run script
-        run: uv run main.py
+        run: uv run -u main.py
         env:
           VPN_URL: ${{ secrets.VPN_URL }}
           VPN_USERNAME: ${{ secrets.VPN_USERNAME }}
