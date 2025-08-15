@@ -37,7 +37,7 @@ jobs:
         working-directory: mirroring
 
       - name: Run Docker image mirroring script
-        run: uv run -u main.py
+        run: uv run main.py -u
         env:
           GITHUB_EVENT_NAME: ${{ github.event_name }}
         working-directory: mirroring
