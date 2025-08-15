@@ -25,11 +25,12 @@ jobs:
         working-directory: vpn
 
       - name: Run script
-        run: uv run main.py -u
+        run: uv run main.py
         env:
           VPN_URL: ${{ secrets.VPN_URL }}
           VPN_USERNAME: ${{ secrets.VPN_USERNAME }}
           VPN_PASSWORD: ${{ secrets.VPN_PASSWORD }}
           TELEBOT_USER: ${{ secrets.TELEBOT_USER }}
           TELEBOT_TOKEN: ${{ secrets.TELEBOT_TOKEN }}
+          PYTHONUNBUFFERED: "1"
         working-directory: vpn
