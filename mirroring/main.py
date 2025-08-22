@@ -144,6 +144,7 @@ def download_and_push_image(image: Image, platform: str) -> None:
     print(
         f"Mirroring {image.name}:{image.original_tag} to {image.target_identifier}:{image.target_tag} for {platform}"
     )
+    time.sleep(10)
 
     subprocess.run(
         [
@@ -254,7 +255,6 @@ def image_mirror(image: Image, status: dict[str, Status]) -> bool:
         for platform, platform_status in status.items():
             match platform_status:
                 case Status.NEW | Status.OUTDATED:
-                    time.sleep(10)
                     download_and_push_image(image, platform)
 
         return create_manifest(image, status)
