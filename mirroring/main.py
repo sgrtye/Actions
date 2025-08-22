@@ -1,6 +1,7 @@
 import json
 import os
 import subprocess
+import time
 from dataclasses import dataclass
 from enum import Enum, auto
 
@@ -253,6 +254,7 @@ def image_mirror(image: Image, status: dict[str, Status]) -> bool:
         for platform, platform_status in status.items():
             match platform_status:
                 case Status.NEW | Status.OUTDATED:
+                    time.sleep(10)
                     download_and_push_image(image, platform)
 
         return create_manifest(image, status)
