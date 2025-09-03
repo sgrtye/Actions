@@ -6,6 +6,7 @@ on:
     - cron: "24 10 * * *"
   push:
     paths:
+      - "mirroring/main.py"
       - "mirroring/images.txt"
 
 jobs:
