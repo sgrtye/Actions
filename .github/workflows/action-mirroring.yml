@@ -28,7 +28,7 @@ jobs:
         with:
           registry: "hkccr.ccs.tencentyun.com"
           username: "sgrtye"
-          password: ${{ secrets.ALI_REGISTRY_PASSWORD }}
+          password: ${{ secrets.TENCENT_REGISTRY_PASSWORD }}
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
