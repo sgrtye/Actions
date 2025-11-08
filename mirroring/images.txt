@@ -1,4 +1,4 @@
-s-ui alireza7/s-ui latest ccr.ccs.tencentyun.com/sgrtye/s-ui latest
-dockge louislam/dockge latest ccr.ccs.tencentyun.com/sgrtye/dockge latest
-watchtower containrrr/watchtower latest ccr.ccs.tencentyun.com/sgrtye/watchtower latest
-cloudflared cloudflare/cloudflared latest ccr.ccs.tencentyun.com/sgrtye/cloudflared latest
+s-ui alireza7/s-ui latest crpi-p66kx4x4643ycaow.cn-hongkong.personal.cr.aliyuncs.com/sgrtye/s-ui latest
+dockge louislam/dockge latest crpi-p66kx4x4643ycaow.cn-hongkong.personal.cr.aliyuncs.com/sgrtye/dockge latest
+watchtower containrrr/watchtower latest crpi-p66kx4x4643ycaow.cn-hongkong.personal.cr.aliyuncs.com/sgrtye/watchtower latest
+cloudflared cloudflare/cloudflared latest crpi-p66kx4x4643ycaow.cn-hongkong.personal.cr.aliyuncs.com/sgrtye/cloudflared latest
