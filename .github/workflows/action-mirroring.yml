@@ -23,10 +23,10 @@ jobs:
           username: "sgrtye"
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Login to Ali Registry
+      - name: Login to Tencent Registry HK
         uses: docker/login-action@v3
         with:
-          registry: "crpi-p66kx4x4643ycaow.cn-hongkong.personal.cr.aliyuncs.com"
+          registry: "hkccr.ccs.tencentyun.com"
           username: "sgrtye"
           password: ${{ secrets.ALI_REGISTRY_PASSWORD }}
 
