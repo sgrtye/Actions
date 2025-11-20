@@ -1,4 +1,4 @@
 s-ui alireza7/s-ui latest hkccr.ccs.tencentyun.com/sgrtye/s-ui latest
 dockge louislam/dockge latest hkccr.ccs.tencentyun.com/sgrtye/dockge latest
-watchtower containrrr/watchtower latest hkccr.ccs.tencentyun.com/sgrtye/watchtower latest
+watchtower nickfedor/watchtower latest hkccr.ccs.tencentyun.com/sgrtye/watchtower latest
 cloudflared cloudflare/cloudflared latest hkccr.ccs.tencentyun.com/sgrtye/cloudflared latest
