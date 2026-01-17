@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     groups:
       github-actions:
         patterns:
@@ -15,7 +15,7 @@ updates:
       - "mirroring"
       - "vpn"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     groups:
       python-dependencies:
         patterns:
