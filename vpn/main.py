@@ -75,7 +75,7 @@ def main() -> None:
             VPN_login(page)
             if verify_status(page):
                 print("Already checked in today. Exiting.")
-                exit(0)
+                return
 
             page.wait_for_selector("#checkin-div > a")
             element = page.locator("#checkin-div > a")
