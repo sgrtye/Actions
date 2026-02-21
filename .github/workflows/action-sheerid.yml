@@ -1,0 +1,37 @@
+name: Sheer ID daily bonus
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "12 5 * * *"
+  push:
+    paths:
+      - "sheerid/main.py"
+
+jobs:
+  SheerID:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Set up Python environment
+        run: uv sync --locked
+        working-directory: sheerid
+
+      - name: Set up Playwright
+        run: uv run -m playwright install --with-deps
+        working-directory: sheerid
+
+      - name: Run the Sheer ID daily bonus script
+        run: uv run main.py
+        env:
+          ONE_IDKEY: ${{ secrets.ONE_IDKEY }}
+          TELEBOT_USER: ${{ secrets.TELEBOT_USER }}
+          TELEBOT_TOKEN: ${{ secrets.TELEBOT_TOKEN }}
+          PYTHONUNBUFFERED: "1"
+        working-directory: sheerid

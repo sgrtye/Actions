@@ -9,6 +9,9 @@
 		{
 			"path": "../mirroring"
 		},
+		{
+			"path": "../sheerid"
+		},
 	],
 	"settings": {
 		"python.analysis.typeCheckingMode": "basic"
