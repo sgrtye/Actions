@@ -3,6 +3,7 @@ import os
 import subprocess
 import time
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from enum import Enum, auto
 
 event_name: str | None = os.getenv("GITHUB_EVENT_NAME")
@@ -304,7 +305,12 @@ def main() -> None:
     images: list[Image] = load_images_from_file()
     result: dict[Image, dict[str, Status]] = dict()
 
-    for image in images:
+    for image in (
+        selected_image
+        for i, selected_image in enumerate(images)
+        if not SCHEDULED
+        or (SCHEDULED and datetime.now(timezone.utc).weekday() == i % 7)
+    ):
         status = check_image_status(image)
         print(f"Status for {image.name}: {status}")
 
