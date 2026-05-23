@@ -58,8 +58,15 @@ def load_images_from_file() -> list[Image]:
                 )
             )
 
-    print(f"images: {[image.name for image in images]} to be processed")
-    return images
+    selected_images: list[Image] = [
+        selected_image
+        for i, selected_image in enumerate(images)
+        if not SCHEDULED
+        or (SCHEDULED and datetime.now(timezone.utc).weekday() == i % 7)
+    ]
+
+    print(f"images: {[image.name for image in selected_images]} to be processed")
+    return selected_images
 
 
 def get_image_digest(manifests: list[dict] | dict, platform: str) -> str | None:
@@ -166,7 +173,7 @@ def download_and_push_image(image: Image, platform: str) -> None:
             "docker",
             "tag",
             f"{image.original_identifier}:{image.original_tag}",
-            f"{image.target_identifier}:{PLATFORMS[platform]}",
+            f"{image.target_identifier}:{image.target_tag}-{PLATFORMS[platform]}",
         ],
         capture_output=True,
         text=True,
@@ -176,7 +183,7 @@ def download_and_push_image(image: Image, platform: str) -> None:
         [
             "docker",
             "push",
-            f"{image.target_identifier}:{PLATFORMS[platform]}",
+            f"{image.target_identifier}:{image.target_tag}-{PLATFORMS[platform]}",
         ],
         capture_output=True,
         text=True,
@@ -215,7 +222,7 @@ def create_manifest(image: Image, statuses: dict[str, Status]) -> bool:
 
     manifest_name: str = f"{image.target_identifier}:{image.target_tag}"
     platform_images: list[str] = [
-        f"{image.target_identifier}:{PLATFORMS[platform]}"
+        f"{image.target_identifier}:{image.target_tag}-{PLATFORMS[platform]}"
         for platform in supported_platforms
     ]
 
@@ -305,12 +312,7 @@ def main() -> None:
     images: list[Image] = load_images_from_file()
     result: dict[Image, dict[str, Status]] = dict()
 
-    for image in (
-        selected_image
-        for i, selected_image in enumerate(images)
-        if not SCHEDULED
-        or (SCHEDULED and datetime.now(timezone.utc).weekday() == i % 7)
-    ):
+    for image in images:
         status = check_image_status(image)
         print(f"Status for {image.name}: {status}")
 
