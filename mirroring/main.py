@@ -150,7 +150,7 @@ def check_image_status(image: Image) -> dict[str, Status]:
 
 def download_and_push_image(image: Image, platform: str) -> None:
     print(
-        f"Mirroring {image.name}:{image.original_tag} to {image.target_identifier}:{image.target_tag} for {platform}"
+        f"Mirroring {image.original_identifier}:{image.original_tag} to {image.target_identifier}:{image.target_tag} for {platform}"
     )
     time.sleep(10)
 
