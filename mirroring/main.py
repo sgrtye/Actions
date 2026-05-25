@@ -280,8 +280,13 @@ def create_step_summary(result: dict[Image, dict[str, Status]]) -> None:
         image_width: int = max(15, max(len(image.name) for image in result.keys()) + 2)
         platform_width: int = 15
 
-        header: str = f"|{'Image':^{image_width}}"
-        separator: str = f"|{'-' * image_width}"
+        sequence_width: int = 5
+
+        header: str = f"|{'#':^{sequence_width}}"
+        separator: str = f"|{'-' * sequence_width}"
+
+        header += f"|{'Image':^{image_width}}"
+        separator += f"|{'-' * image_width}"
 
         for platform_name in PLATFORMS.values():
             header += f"|{platform_name:^{platform_width}}"
@@ -294,8 +299,8 @@ def create_step_summary(result: dict[Image, dict[str, Status]]) -> None:
         summary_file.write(header)
         summary_file.write(separator)
 
-        for image, status in result.items():
-            row: str = f"|{image.name:^{image_width}}"
+        for i, (image, status) in enumerate(result.items()):
+            row: str = f"|{i + 1:^{sequence_width}}|{image.name:^{image_width}}"
 
             for platform_key in PLATFORMS.keys():
                 platform_status: Status = status.get(platform_key, Status.ERROR)
