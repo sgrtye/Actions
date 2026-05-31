@@ -4,5 +4,6 @@ dockge louislam/dockge latest hkccr.ccs.tencentyun.com/sgrtye/dockge latest
 glances nicolargo/glances latest hkccr.ccs.tencentyun.com/sgrtye/glances latest
 portainer portainer/portainer-ee sts hkccr.ccs.tencentyun.com/sgrtye/portainer latest
 watchtower nickfedor/watchtower latest hkccr.ccs.tencentyun.com/sgrtye/watchtower latest
+uptime-kuma louislam/uptime-kuma 2-slim hkccr.ccs.tencentyun.com/sgrtye/uptime-kuma latest
 cloudflared cloudflare/cloudflared latest hkccr.ccs.tencentyun.com/sgrtye/cloudflared latest
 cloudflare-ddns favonia/cloudflare-ddns latest hkccr.ccs.tencentyun.com/sgrtye/cloudflare-ddns latest
