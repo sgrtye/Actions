@@ -38,7 +38,7 @@ def VPN_login(page) -> None:
     page.fill("#password", VPN_PASSWORD)
 
     page.wait_for_selector(
-        "#app > section > div > div > div > div.card.card-primary > form > div > div:nth-child(5) > button"
+        "#app > div > div > form > button"
     ).click()
     page.wait_for_timeout(TIMEOUT)
 
