@@ -40,6 +40,7 @@ def VPN_login(page) -> None:
     page.wait_for_selector(
         "#app > div > div > form > button"
     ).click()
+    print("Logged in")
     page.wait_for_timeout(TIMEOUT)
 
     if (
@@ -48,6 +49,7 @@ def VPN_login(page) -> None:
         )
         is not None
     ):
+        print("Popup window detected")
         page.wait_for_selector(
             "#popup-ann-modal > div > div > div.modal-footer.bg-whitesmoke.br > button"
         ).click()
