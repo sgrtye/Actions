@@ -1,8 +1,9 @@
 traefik traefik v3 hkccr.ccs.tencentyun.com/sgrtye/traefik latest
 s-ui alireza7/s-ui latest hkccr.ccs.tencentyun.com/sgrtye/s-ui latest
 glances nicolargo/glances latest hkccr.ccs.tencentyun.com/sgrtye/glances latest
-portainer portainer/portainer-ee sts hkccr.ccs.tencentyun.com/sgrtye/portainer latest
 watchtower nickfedor/watchtower latest hkccr.ccs.tencentyun.com/sgrtye/watchtower latest
 uptime-kuma louislam/uptime-kuma 2-slim hkccr.ccs.tencentyun.com/sgrtye/uptime-kuma latest
+portainer-ce portainer/portainer-ce lts hkccr.ccs.tencentyun.com/sgrtye/portainer-ce latest
+portainer-ee portainer/portainer-ee lts hkccr.ccs.tencentyun.com/sgrtye/portainer-ee latest
 cloudflared cloudflare/cloudflared latest hkccr.ccs.tencentyun.com/sgrtye/cloudflared latest
 cloudflare-ddns favonia/cloudflare-ddns latest hkccr.ccs.tencentyun.com/sgrtye/cloudflare-ddns latest
