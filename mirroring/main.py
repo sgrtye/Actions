@@ -3,17 +3,37 @@ import os
 import subprocess
 import time
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum, auto
 
 event_name: str | None = os.getenv("GITHUB_EVENT_NAME")
 github_step_summary: str | None = os.getenv("GITHUB_STEP_SUMMARY")
 
+
+class GithubEvent(Enum):
+    SCHEDULE = auto()
+    PUSH = auto()
+    MANUAL = auto()
+    OTHER = auto()
+
+
 if event_name is None or github_step_summary is None:
     print("Error: Missing one or more required secrets. Exiting.")
     raise SystemExit(1)
 else:
-    SCHEDULED: bool = event_name == "schedule"
+    EVENT: GithubEvent = GithubEvent.OTHER
+    match event_name:
+        case "schedule":
+            EVENT = GithubEvent.SCHEDULE
+        case "push":
+            EVENT = GithubEvent.PUSH
+        case "workflow_dispatch":
+            EVENT = GithubEvent.MANUAL
+        case _:
+            EVENT = GithubEvent.OTHER
+
+    print(f"Current GitHub event: {event_name}")
+
     GITHUB_STEP_SUMMARY: str = github_step_summary
     PLATFORMS: dict[str, str] = {"linux/arm64": "arm64", "linux/amd64": "amd64"}
 
@@ -23,6 +43,7 @@ class Status(Enum):
     OUTDATED = auto()
     UP_TO_DATE = auto()
     NOT_SUPPORTED = auto()
+    SKIPPED = auto()
     ERROR = auto()
 
 
@@ -61,8 +82,8 @@ def load_images_from_file() -> list[Image]:
     selected_images: list[Image] = [
         selected_image
         for i, selected_image in enumerate(images)
-        if not SCHEDULED
-        or (SCHEDULED and datetime.now(timezone.utc).weekday() == i % 7)
+        if EVENT != GithubEvent.SCHEDULE
+        or (EVENT == GithubEvent.SCHEDULE and datetime.now(UTC).weekday() == i % 7)
     ]
 
     print(f"images: {[image.name for image in selected_images]} to be processed")
@@ -78,7 +99,7 @@ def get_image_digest(manifests: list[dict] | dict, platform: str) -> str | None:
 
     for manifest in manifests:
         info: dict[str, str] = manifest.get("Descriptor", {}).get("platform", {})
-        if not f"{info.get('os', '')}/{info.get('architecture', '')}" == platform:
+        if f"{info.get('os', '')}/{info.get('architecture', '')}" != platform:
             continue
 
         match manifest["Descriptor"]["mediaType"]:
@@ -107,6 +128,7 @@ def check_image_status(image: Image) -> dict[str, Status]:
         ],
         capture_output=True,
         text=True,
+        check=True,
     )
 
     if original_manifest.returncode != 0:
@@ -124,6 +146,7 @@ def check_image_status(image: Image) -> dict[str, Status]:
         ],
         capture_output=True,
         text=True,
+        check=True,
     )
 
     if target_manifest.returncode != 0:
@@ -132,7 +155,7 @@ def check_image_status(image: Image) -> dict[str, Status]:
         target_manifest_parsed = json.loads(target_manifest.stdout)
 
     status: dict[str, Status] = dict()
-    for platform in PLATFORMS.keys():
+    for platform in PLATFORMS:
         original_platform = get_image_digest(original_manifest_parsed, platform)
         target_platform = get_image_digest(target_manifest_parsed, platform)
 
@@ -164,6 +187,7 @@ def download_and_push_image(image: Image, platform: str) -> None:
         ],
         capture_output=True,
         text=True,
+        check=True,
     )
 
     print("Image pulled successfully")
@@ -177,6 +201,7 @@ def download_and_push_image(image: Image, platform: str) -> None:
         ],
         capture_output=True,
         text=True,
+        check=True,
     )
 
     subprocess.run(
@@ -187,6 +212,7 @@ def download_and_push_image(image: Image, platform: str) -> None:
         ],
         capture_output=True,
         text=True,
+        check=True,
     )
 
     print("Image pushed successfully")
@@ -200,11 +226,14 @@ def download_and_push_image(image: Image, platform: str) -> None:
         ],
         capture_output=True,
         text=True,
+        check=True,
     )
 
 
 def create_manifest(image: Image, statuses: dict[str, Status]) -> bool:
-    if all(status == Status.UP_TO_DATE for status in statuses.values()) and SCHEDULED:
+    if EVENT == GithubEvent.SCHEDULE and all(
+        status == Status.UP_TO_DATE for status in statuses.values()
+    ):
         print(f"Image {image.name} is already up to date for all platforms.")
         return True
 
@@ -227,7 +256,10 @@ def create_manifest(image: Image, statuses: dict[str, Status]) -> bool:
     ]
 
     subprocess.run(
-        ["docker", "manifest", "rm", manifest_name], capture_output=True, text=True
+        ["docker", "manifest", "rm", manifest_name],
+        capture_output=True,
+        text=True,
+        check=True,
     )
 
     create_cmd: list[str] = [
@@ -237,14 +269,17 @@ def create_manifest(image: Image, statuses: dict[str, Status]) -> bool:
         manifest_name,
     ] + platform_images
 
-    result = subprocess.run(create_cmd, capture_output=True, text=True)
+    result = subprocess.run(create_cmd, capture_output=True, text=True, check=True)
 
     if result.returncode != 0:
         print(f"Failed to create manifest for {image.name}: {result.stderr}")
         return False
 
     push_result = subprocess.run(
-        ["docker", "manifest", "push", manifest_name], capture_output=True, text=True
+        ["docker", "manifest", "push", manifest_name],
+        capture_output=True,
+        text=True,
+        check=True,
     )
 
     if push_result.returncode != 0:
@@ -264,6 +299,8 @@ def image_mirror(image: Image, status: dict[str, Status]) -> bool:
             match platform_status:
                 case Status.NEW | Status.OUTDATED:
                     download_and_push_image(image, platform)
+                case _:
+                    pass
 
         return create_manifest(image, status)
 
@@ -277,7 +314,7 @@ def create_step_summary(result: dict[Image, dict[str, Status]]) -> None:
         summary_file.write("### Docker Image Mirroring Results\n\n")
         summary_file.write("```\n")
 
-        image_width: int = max(15, max(len(image.name) for image in result.keys()) + 2)
+        image_width: int = max(15, max(len(image.name) for image in result) + 2)
         platform_width: int = 15
 
         sequence_width: int = 5
@@ -302,7 +339,7 @@ def create_step_summary(result: dict[Image, dict[str, Status]]) -> None:
         for i, (image, status) in enumerate(result.items()):
             row: str = f"|{i + 1:^{sequence_width}}|{image.name:^{image_width}}"
 
-            for platform_key in PLATFORMS.keys():
+            for platform_key in PLATFORMS:
                 platform_status: Status = status.get(platform_key, Status.ERROR)
                 row += f"|{platform_status.name:^{platform_width}}"
 
@@ -320,6 +357,19 @@ def main() -> None:
     for image in images:
         status = check_image_status(image)
         print(f"Status for {image.name}: {status}")
+
+        if EVENT == GithubEvent.PUSH and not any(
+            s == Status.NEW for s in status.values()
+        ):
+            print(
+                f"Image {image.name} has no new images. Skipping during push workflow."
+            )
+
+            result[image] = {
+                platform: (Status.SKIPPED if state != Status.NEW else Status.NEW)
+                for platform, state in status.items()
+            }
+            continue
 
         pushed_successfully = image_mirror(image, status)
 
