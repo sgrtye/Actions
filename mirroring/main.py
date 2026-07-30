@@ -128,7 +128,7 @@ def check_image_status(image: Image) -> dict[str, Status]:
         ],
         capture_output=True,
         text=True,
-        check=True,
+        check=False,
     )
 
     if original_manifest.returncode != 0:
@@ -146,7 +146,7 @@ def check_image_status(image: Image) -> dict[str, Status]:
         ],
         capture_output=True,
         text=True,
-        check=True,
+        check=False,
     )
 
     if target_manifest.returncode != 0:
@@ -279,7 +279,7 @@ def create_manifest(image: Image, statuses: dict[str, Status]) -> bool:
         ["docker", "manifest", "push", manifest_name],
         capture_output=True,
         text=True,
-        check=True,
+        check=False,
     )
 
     if push_result.returncode != 0:
