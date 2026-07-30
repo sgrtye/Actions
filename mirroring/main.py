@@ -64,6 +64,10 @@ def load_images_from_file() -> list[Image]:
             if not line:
                 continue
 
+            if line.startswith("//"):
+                print(f"Skipping commented-out line in images.txt: {line}")
+                continue
+
             parts: list[str] = line.split()
             if len(parts) != 5:
                 print(f"Skipping invalid line in images.txt: {line}")
