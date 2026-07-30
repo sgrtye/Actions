@@ -255,13 +255,6 @@ def create_manifest(image: Image, statuses: dict[str, Status]) -> bool:
         for platform in supported_platforms
     ]
 
-    subprocess.run(
-        ["docker", "manifest", "rm", manifest_name],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-
     create_cmd: list[str] = [
         "docker",
         "manifest",
