@@ -269,7 +269,7 @@ def create_manifest(image: Image, statuses: dict[str, Status]) -> bool:
         manifest_name,
     ] + platform_images
 
-    result = subprocess.run(create_cmd, capture_output=True, text=True, check=True)
+    result = subprocess.run(create_cmd, capture_output=True, text=True, check=False)
 
     if result.returncode != 0:
         print(f"Failed to create manifest for {image.name}: {result.stderr}")
