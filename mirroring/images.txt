@@ -4,8 +4,8 @@ s-ui alireza7/s-ui latest hkccr.ccs.tencentyun.com/sgrtye/s-ui latest
 glances nicolargo/glances latest hkccr.ccs.tencentyun.com/sgrtye/glances latest
 bark-server finab/bark-server latest hkccr.ccs.tencentyun.com/sgrtye/bark-server latest
 watchtower nickfedor/watchtower latest hkccr.ccs.tencentyun.com/sgrtye/watchtower latest
-vaultwarden vaultwarden/server latest hkccr.ccs.tencentyun.com/sgrtye/vaultwarden latest
 portainer-ee portainer/portainer-ee lts hkccr.ccs.tencentyun.com/sgrtye/portainer-ee lts
 uptime-kuma louislam/uptime-kuma 2-slim hkccr.ccs.tencentyun.com/sgrtye/uptime-kuma 2-slim
 cloudflared cloudflare/cloudflared latest hkccr.ccs.tencentyun.com/sgrtye/cloudflared latest
 cloudflare-ddns favonia/cloudflare-ddns latest hkccr.ccs.tencentyun.com/sgrtye/cloudflare-ddns latest
+vaultwarden-server vaultwarden/server latest hkccr.ccs.tencentyun.com/sgrtye/vaultwarden-server latest
