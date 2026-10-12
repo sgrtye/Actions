@@ -3,7 +3,7 @@ name: Docker image mirroring
 on:
   workflow_dispatch:
   schedule:
-    - cron: "24 10 * * *"
+    - cron: "12 5 * * *"
   push:
     paths:
       - "mirroring/main.py"
