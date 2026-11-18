@@ -34,11 +34,11 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Set up Python environment
-        run: uv sync --locked
+        run: uv sync --locked --no-dev
         working-directory: mirroring
 
       - name: Run Docker image mirroring script
-        run: uv run mirroring
+        run: uv run --no-sync mirroring
         env:
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           PYTHONUNBUFFERED: "1"
