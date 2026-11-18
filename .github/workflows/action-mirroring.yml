@@ -6,7 +6,7 @@ on:
     - cron: "12 5 * * *"
   push:
     paths:
-      - "mirroring/main.py"
+      - "mirroring/src/mirroring/main.py"
       - "mirroring/images.txt"
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
         working-directory: mirroring
 
       - name: Run Docker image mirroring script
-        run: uv run main.py
+        run: uv run mirroring
         env:
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           PYTHONUNBUFFERED: "1"
