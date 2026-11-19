@@ -3,8 +3,18 @@ name = "vpn"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.14"
+authors = [
+    { name = "sgrtye", email = "sgrtye@gmail.com" }
+]
+requires-python = ">=3.15"
 dependencies = [
-    "playwright>=1.64.1",
+    "playwright>=1.65.2",
     "requests>=2.34.2",
 ]
+
+[project.scripts]
+vpn = "vpn:main"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"

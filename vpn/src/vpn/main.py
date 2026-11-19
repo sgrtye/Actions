@@ -3,7 +3,6 @@ import os
 import requests
 from playwright.sync_api import sync_playwright
 
-
 vpn_url: str | None = os.getenv("VPN_URL")
 vpn_username: str | None = os.getenv("VPN_USERNAME")
 vpn_password: str | None = os.getenv("VPN_PASSWORD")
@@ -37,9 +36,7 @@ def VPN_login(page) -> None:
     page.wait_for_selector("#password").click()
     page.fill("#password", VPN_PASSWORD)
 
-    page.wait_for_selector(
-        "#app > div > div > form > button"
-    ).click()
+    page.wait_for_selector("#app > div > div > form > button").click()
     print("Logged in")
     page.wait_for_timeout(TIMEOUT)
 

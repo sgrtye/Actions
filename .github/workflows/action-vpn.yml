@@ -28,7 +28,7 @@ jobs:
         working-directory: vpn
 
       - name: Run the VPN daily bonus script
-        run: uv run main.py
+        run: uv run --no-sync vpn
         env:
           VPN_URL: ${{ secrets.VPN_URL }}
           VPN_USERNAME: ${{ secrets.VPN_USERNAME }}
