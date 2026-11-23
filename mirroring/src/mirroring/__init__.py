@@ -1,1 +1,1 @@
-from .main import main as main
+from mirroring.main import main as main

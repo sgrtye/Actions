@@ -1,1 +1,1 @@
-from .main import main as main
+from vpn.main import main as main
